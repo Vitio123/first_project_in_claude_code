@@ -7,19 +7,26 @@ export default function useFetch(url) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // AbortController permite cancelar el fetch si el componente se desmonta
     const controller = new AbortController();
+    setLoading(true);
+    setError(null);
 
     fetch(url, { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`Error ${res.status}`);
         return res.json();
       })
-      .then(setData)
-      .catch((err) => {
-        if (err.name !== "AbortError") setError(err.message);
+      .then((json) => {
+        if (!controller.signal.aborted) {
+          setData(json);
+          setLoading(false);
+        }
       })
-      .finally(() => setLoading(false));
+      .catch((err) => {
+        if (controller.signal.aborted) return;
+        setError(err.message);
+        setLoading(false);
+      });
 
     return () => controller.abort();
   }, [url]);

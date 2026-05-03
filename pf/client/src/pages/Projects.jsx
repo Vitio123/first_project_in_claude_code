@@ -4,7 +4,7 @@ import ProjectCard from "../components/ProjectCard";
 
 export default function Projects() {
   const { data: projects, loading, error } = useFetch("/api/projects");
-  const gridRef = useScrollReveal();
+  const gridRef = useScrollReveal(0.15, [projects]);
 
   return (
     <div className="page-enter">

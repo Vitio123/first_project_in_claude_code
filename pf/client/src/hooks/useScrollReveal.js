@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 const REVEAL_SELECTOR = ".reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur";
 
-export default function useScrollReveal(threshold = 0.15) {
+export default function useScrollReveal(threshold = 0.15, deps = []) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -47,7 +47,8 @@ export default function useScrollReveal(threshold = 0.15) {
       clearTimeout(fallback);
       observer.disconnect();
     };
-  }, [threshold]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [threshold, ...deps]);
 
   return ref;
 }
