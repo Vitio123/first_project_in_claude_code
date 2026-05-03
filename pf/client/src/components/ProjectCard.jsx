@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 
 export default function ProjectCard({ project, index = 0 }) {
   const techs = project.tech.split(",").map((t) => t.trim());
@@ -44,9 +45,10 @@ export default function ProjectCard({ project, index = 0 }) {
 
       <div className="mt-auto flex items-center gap-2 pt-4">
         <span className="label-mono text-electric-400">Ver contenido</span>
-        <span className="text-electric-400 transition-transform group-hover:translate-x-1">
-          →
-        </span>
+        <ArrowUpRight
+          size={16}
+          className="text-electric-400 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+        />
       </div>
     </Link>
   );

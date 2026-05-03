@@ -29,6 +29,35 @@
 }
 
 /* ───────────────────────────────────────────────
+   Tema LIGHT: redefinimos las mismas variables.
+   Como Tailwind v4 referencia las clases via var(),
+   cambiar una variable cambia todo el componente.
+─────────────────────────────────────────────── */
+[data-theme="light"] {
+  /* "midnight" = roles oscuros en dark, ahora son claros */
+  --color-midnight-950: #f5f1e8;  /* fondo principal */
+  --color-midnight-900: #ebe5d3;  /* surface (cards) */
+  --color-midnight-850: #e0d8bf;  /* surface elevado */
+  --color-midnight-800: #cdc2a3;  /* borders */
+  --color-midnight-700: #a89e7e;
+  --color-midnight-600: #7a715a;
+  --color-midnight-500: #524b3c;
+
+  /* "cream" = roles de texto, ahora son oscuros */
+  --color-cream-100: #1a2438;
+  --color-cream-200: #2d3a55;
+  --color-cream-300: #4a5572;
+  --color-cream-400: #6a7591;
+
+  /* "electric" — bajamos un poco para contraste sobre claro */
+  --color-electric-300: #0284c7;
+  --color-electric-400: #0369a1;
+  --color-electric-500: #075985;
+  --color-electric-600: #0c4a6e;
+  --color-electric-700: #082f49;
+}
+
+/* ───────────────────────────────────────────────
    Base
 ─────────────────────────────────────────────── */
 @layer base {

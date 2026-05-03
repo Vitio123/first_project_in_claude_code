@@ -1,14 +1,53 @@
 import { Link } from "react-router-dom";
+import {
+  ArrowRight,
+  FileCode2,
+  Braces,
+  Atom,
+  Server,
+  Database,
+  ShieldCheck,
+} from "lucide-react";
 import useScrollReveal from "../hooks/useScrollReveal";
 import DotField from "../components/DotField";
 
 const skills = [
-  { id: "01", name: "HTML & CSS", desc: "Semántica, Grid y Flexbox. La base estructural de toda interfaz." },
-  { id: "02", name: "JavaScript", desc: "ES6+, estructuras de datos y asincronía con Promises y async/await." },
-  { id: "03", name: "React", desc: "Componentes, hooks y React Router. Interfaces reactivas y escalables." },
-  { id: "04", name: "Node & Express", desc: "Servidores HTTP, API REST, middlewares y manejo de errores." },
-  { id: "05", name: "SQL & SQLite", desc: "Modelado relacional, consultas y relaciones entre tablas." },
-  { id: "06", name: "Seguridad & APIs", desc: "CORS, validación de inputs, JWT y conexión a servicios externos." },
+  {
+    id: "01",
+    name: "HTML & CSS",
+    desc: "Semántica, Grid y Flexbox. La base estructural de toda interfaz.",
+    Icon: FileCode2,
+  },
+  {
+    id: "02",
+    name: "JavaScript",
+    desc: "ES6+, estructuras de datos y asincronía con Promises y async/await.",
+    Icon: Braces,
+  },
+  {
+    id: "03",
+    name: "React",
+    desc: "Componentes, hooks y React Router. Interfaces reactivas y escalables.",
+    Icon: Atom,
+  },
+  {
+    id: "04",
+    name: "Node & Express",
+    desc: "Servidores HTTP, API REST, middlewares y manejo de errores.",
+    Icon: Server,
+  },
+  {
+    id: "05",
+    name: "SQL & SQLite",
+    desc: "Modelado relacional, consultas y relaciones entre tablas.",
+    Icon: Database,
+  },
+  {
+    id: "06",
+    name: "Seguridad & APIs",
+    desc: "CORS, validación de inputs, JWT y conexión a servicios externos.",
+    Icon: ShieldCheck,
+  },
 ];
 
 export default function Home() {
@@ -43,7 +82,7 @@ export default function Home() {
               className="group inline-flex items-center gap-3 border border-electric-500 bg-electric-500 px-7 py-3.5 font-medium text-midnight-950 transition-colors hover:bg-electric-400 hover:border-electric-400"
             >
               Ver proyectos
-              <span className="transition-transform group-hover:translate-x-1">→</span>
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to="/contact"
@@ -73,19 +112,26 @@ export default function Home() {
           </div>
 
           <div className="stagger grid grid-cols-1 gap-px bg-midnight-800 sm:grid-cols-2 lg:grid-cols-3">
-            {skills.map((s) => (
+            {skills.map(({ id, name, desc, Icon }) => (
               <div
-                key={s.id}
+                key={id}
                 className="reveal-scale group relative bg-midnight-900 p-8 transition-colors hover:bg-midnight-850"
               >
-                <span className="font-mono text-xs text-cream-400 transition-colors group-hover:text-electric-400">
-                  {s.id}
-                </span>
-                <h3 className="mt-4 text-xl font-semibold text-cream-100">
-                  {s.name}
+                <div className="flex items-start justify-between">
+                  <Icon
+                    size={28}
+                    strokeWidth={1.5}
+                    className="text-electric-400 transition-transform group-hover:-translate-y-1"
+                  />
+                  <span className="font-mono text-xs text-cream-400 transition-colors group-hover:text-electric-400">
+                    {id}
+                  </span>
+                </div>
+                <h3 className="mt-6 text-xl font-semibold text-cream-100">
+                  {name}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-cream-300">
-                  {s.desc}
+                  {desc}
                 </p>
               </div>
             ))}
@@ -112,7 +158,7 @@ export default function Home() {
                 className="group inline-flex items-center gap-3 border border-cream-100 px-7 py-3.5 font-medium text-cream-100 transition-colors hover:border-electric-400 hover:text-electric-300"
               >
                 Enviar mensaje
-                <span className="transition-transform group-hover:translate-x-1">→</span>
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </div>

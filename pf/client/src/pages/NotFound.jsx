@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -14,7 +15,7 @@ export default function NotFound() {
         to="/"
         className="group mt-10 inline-flex items-center gap-3 border border-cream-100 px-7 py-3.5 font-medium text-cream-100 transition-colors hover:border-electric-400 hover:text-electric-300"
       >
-        <span className="transition-transform group-hover:-translate-x-1">←</span>
+        <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
         Volver al inicio
       </Link>
     </div>

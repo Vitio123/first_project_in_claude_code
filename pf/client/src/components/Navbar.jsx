@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { Sun, Moon, Menu, X, Home, FolderGit2, Mail } from "lucide-react";
+import useTheme from "../hooks/useTheme";
 
 const links = [
-  { to: "/", label: "Inicio", end: true },
-  { to: "/projects", label: "Proyectos" },
-  { to: "/contact", label: "Contacto" },
+  { to: "/", label: "Inicio", end: true, Icon: Home },
+  { to: "/projects", label: "Proyectos", Icon: FolderGit2 },
+  { to: "/contact", label: "Contacto", Icon: Mail },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -40,71 +43,66 @@ export default function Navbar() {
 
         {/* Desktop */}
         <ul className="hidden items-center gap-1 md:flex">
-          {links.map((l) => (
-            <li key={l.to}>
+          {links.map(({ to, label, end, Icon }) => (
+            <li key={to}>
               <NavLink
-                to={l.to}
-                end={l.end}
+                to={to}
+                end={end}
                 className={({ isActive }) =>
                   [
-                    "label-mono px-4 py-2 transition-colors",
+                    "label-mono inline-flex items-center gap-2 px-4 py-2 transition-colors",
                     isActive
                       ? "text-electric-400"
                       : "text-cream-300 hover:text-cream-100",
                   ].join(" ")
                 }
               >
-                {l.label}
+                <Icon size={14} strokeWidth={2} />
+                {label}
               </NavLink>
             </li>
           ))}
+          <li className="ml-2">
+            <ThemeToggle theme={theme} toggle={toggle} />
+          </li>
         </ul>
 
         {/* Mobile button */}
-        <button
-          type="button"
-          aria-label="Abrir menú"
-          aria-expanded={open}
-          onClick={() => setOpen((o) => !o)}
-          className="flex h-10 w-10 items-center justify-center md:hidden"
-        >
-          <span className="relative block h-3 w-6">
-            <span
-              className={[
-                "absolute left-0 top-0 block h-px w-6 bg-cream-100 transition-transform",
-                open && "translate-y-1.5 rotate-45",
-              ].filter(Boolean).join(" ")}
-            />
-            <span
-              className={[
-                "absolute left-0 bottom-0 block h-px w-6 bg-cream-100 transition-transform",
-                open && "-translate-y-1.5 -rotate-45",
-              ].filter(Boolean).join(" ")}
-            />
-          </span>
-        </button>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle theme={theme} toggle={toggle} />
+          <button
+            type="button"
+            aria-label="Abrir menú"
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+            className="flex h-10 w-10 items-center justify-center text-cream-100 transition-colors hover:text-electric-400"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
       {open && (
         <div className="border-t border-midnight-800 bg-midnight-950/95 backdrop-blur-md md:hidden">
           <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
-            {links.map((l) => (
-              <li key={l.to}>
+            {links.map(({ to, label, end, Icon }) => (
+              <li key={to}>
                 <NavLink
-                  to={l.to}
-                  end={l.end}
+                  to={to}
+                  end={end}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     [
-                      "label-mono block py-3 transition-colors",
+                      "label-mono inline-flex w-full items-center gap-3 py-3 transition-colors",
                       isActive
                         ? "text-electric-400"
                         : "text-cream-300 hover:text-cream-100",
                     ].join(" ")
                   }
                 >
-                  {l.label}
+                  <Icon size={16} strokeWidth={2} />
+                  {label}
                 </NavLink>
               </li>
             ))}
@@ -112,5 +110,41 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+  );
+}
+
+function ThemeToggle({ theme, toggle }) {
+  const isDark = theme === "dark";
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+      title={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+      className="group flex h-10 w-10 items-center justify-center border border-midnight-800 bg-midnight-900 text-cream-200 transition-colors hover:border-electric-500 hover:text-electric-400"
+    >
+      <span className="relative h-4 w-4">
+        <Sun
+          size={16}
+          strokeWidth={2}
+          className={[
+            "absolute inset-0 transition-all duration-300",
+            isDark
+              ? "rotate-0 scale-100 opacity-100"
+              : "rotate-90 scale-0 opacity-0",
+          ].join(" ")}
+        />
+        <Moon
+          size={16}
+          strokeWidth={2}
+          className={[
+            "absolute inset-0 transition-all duration-300",
+            isDark
+              ? "-rotate-90 scale-0 opacity-0"
+              : "rotate-0 scale-100 opacity-100",
+          ].join(" ")}
+        />
+      </span>
+    </button>
   );
 }

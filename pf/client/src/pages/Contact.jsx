@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Send, CheckCircle2, AlertTriangle, User, AtSign, MessageSquare } from "lucide-react";
 import { api } from "../services/api";
 import useScrollReveal from "../hooks/useScrollReveal";
 import DotField from "../components/DotField";
@@ -50,15 +51,21 @@ export default function Contact() {
       {/* ── Form ── */}
       <section ref={formRef} className="mx-auto max-w-2xl px-6 py-20 md:px-10 md:py-28">
         {status === "success" && (
-          <div className="reveal mb-8 border border-electric-500 bg-midnight-900 p-4 text-cream-100">
-            <span className="label-mono text-electric-400">✓ Enviado</span>
-            <p className="mt-1 text-sm">Mensaje enviado. ¡Gracias! Te respondo pronto.</p>
+          <div className="reveal mb-8 flex items-start gap-3 border border-electric-500 bg-midnight-900 p-4 text-cream-100">
+            <CheckCircle2 size={20} className="mt-0.5 shrink-0 text-electric-400" />
+            <div>
+              <span className="label-mono text-electric-400">Enviado</span>
+              <p className="mt-1 text-sm">Mensaje enviado. ¡Gracias! Te respondo pronto.</p>
+            </div>
           </div>
         )}
         {status === "error" && (
-          <div className="reveal mb-8 border border-electric-600 bg-midnight-900 p-4 text-cream-100">
-            <span className="label-mono text-electric-300">Error</span>
-            <p className="mt-1 text-sm">Algo salió mal. Revisa los datos y vuelve a intentarlo.</p>
+          <div className="reveal mb-8 flex items-start gap-3 border border-electric-600 bg-midnight-900 p-4 text-cream-100">
+            <AlertTriangle size={20} className="mt-0.5 shrink-0 text-electric-300" />
+            <div>
+              <span className="label-mono text-electric-300">Error</span>
+              <p className="mt-1 text-sm">Algo salió mal. Revisa los datos y vuelve a intentarlo.</p>
+            </div>
           </div>
         )}
 
@@ -68,8 +75,8 @@ export default function Contact() {
           className="stagger flex flex-col gap-6"
         >
           <div className="reveal">
-            <label className="label-mono mb-2 block text-cream-300" htmlFor="name">
-              Nombre
+            <label className="label-mono mb-2 flex items-center gap-2 text-cream-300" htmlFor="name">
+              <User size={12} /> Nombre
             </label>
             <input
               id="name"
@@ -84,8 +91,8 @@ export default function Contact() {
           </div>
 
           <div className="reveal">
-            <label className="label-mono mb-2 block text-cream-300" htmlFor="email">
-              Email
+            <label className="label-mono mb-2 flex items-center gap-2 text-cream-300" htmlFor="email">
+              <AtSign size={12} /> Email
             </label>
             <input
               id="email"
@@ -100,8 +107,8 @@ export default function Contact() {
           </div>
 
           <div className="reveal">
-            <label className="label-mono mb-2 block text-cream-300" htmlFor="message">
-              Mensaje
+            <label className="label-mono mb-2 flex items-center gap-2 text-cream-300" htmlFor="message">
+              <MessageSquare size={12} /> Mensaje
             </label>
             <textarea
               id="message"
@@ -123,7 +130,7 @@ export default function Contact() {
             >
               {status === "loading" ? "Enviando…" : "Enviar mensaje"}
               {status !== "loading" && (
-                <span className="transition-transform group-hover:translate-x-1">→</span>
+                <Send size={16} className="transition-transform group-hover:translate-x-1" />
               )}
             </button>
           </div>

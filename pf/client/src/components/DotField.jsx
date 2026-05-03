@@ -60,8 +60,25 @@ export default function DotField({
       mouseRef.current.active = false;
     };
 
+    // Lee colores del tema actual desde CSS vars cada frame (barato)
+    const styles = getComputedStyle(document.documentElement);
+    const parseRgb = (hex) => {
+      const h = hex.trim().replace("#", "");
+      return [
+        parseInt(h.slice(0, 2), 16),
+        parseInt(h.slice(2, 4), 16),
+        parseInt(h.slice(4, 6), 16),
+      ];
+    };
+
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
+
+      // colores adaptativos al tema
+      const baseColor = styles.getPropertyValue("--color-midnight-700") || "#1d3559";
+      const hotColor = styles.getPropertyValue("--color-electric-300") || "#7dd3fc";
+      const [br, bg, bb] = parseRgb(baseColor);
+      const [hr, hg, hb] = parseRgb(hotColor);
 
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
@@ -71,15 +88,12 @@ export default function DotField({
       for (let i = 0; i < dots.length; i++) {
         const d = dots[i];
 
-        // distancia al cursor
         const dx = d.baseX - mx;
         const dy = d.baseY - my;
         const dist2 = dx * dx + dy * dy;
 
-        // proximidad normalizada (1 = encima, 0 = lejos)
         const proximity = active && dist2 < inf2 ? 1 - dist2 / inf2 : 0;
 
-        // desplazamiento por repulsión
         if (proximity > 0) {
           const dist = Math.sqrt(dist2) || 1;
           const push = proximity * 14;
@@ -88,20 +102,20 @@ export default function DotField({
           d.x += (targetX - d.x) * 0.18;
           d.y += (targetY - d.y) * 0.18;
         } else {
-          // volver a la base
           d.x += (d.baseX - d.x) * 0.08;
           d.y += (d.baseY - d.y) * 0.08;
         }
 
-        // color según proximidad: midnight oscuro → azul electric
-        const alpha = 0.18 + proximity * 0.82;
-        const r = Math.round(125 + (56 - 125) * (1 - proximity)); // mezcla hacia 7dd3fc
-        const g = Math.round(211 + (189 - 211) * (1 - proximity));
-        const b = Math.round(252 + (248 - 252) * (1 - proximity));
-        ctx.fillStyle =
-          proximity > 0
-            ? `rgba(${r}, ${g}, ${b}, ${alpha})`
-            : `rgba(61, 94, 147, 0.35)`;
+        if (proximity > 0) {
+          // mezclar base → hot según proximidad
+          const r = Math.round(br + (hr - br) * proximity);
+          const g = Math.round(bg + (hg - bg) * proximity);
+          const b = Math.round(bb + (hb - bb) * proximity);
+          const alpha = 0.25 + proximity * 0.75;
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        } else {
+          ctx.fillStyle = `rgba(${br}, ${bg}, ${bb}, 0.35)`;
+        }
 
         const size = radius + proximity * 1.6;
         ctx.beginPath();

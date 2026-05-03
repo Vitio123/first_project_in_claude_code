@@ -2,6 +2,15 @@ import { useEffect, useRef } from "react";
 
 const REVEAL_SELECTOR = ".reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur";
 
+/**
+ * Devuelve un ref para anclar a un contenedor.
+ * Observa todos los elementos con clases .reveal* dentro y les aplica
+ * la clase .visible al entrar al viewport y la quita al salir
+ * (fade reversible — se reactiva cada vez que se scrollea).
+ *
+ * @param {number} threshold  qué tanto debe estar visible para activar (0-1)
+ * @param {Array}  deps       deps que disparan re-observación (ej. [data])
+ */
 export default function useScrollReveal(threshold = 0.15, deps = []) {
   const ref = useRef(null);
 
@@ -27,26 +36,19 @@ export default function useScrollReveal(threshold = 0.15, deps = []) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
-            entry.target.querySelectorAll(REVEAL_SELECTOR)
-              .forEach((child) => child.classList.add("visible"));
+          } else {
+            // Solo quita visible si el elemento salió por completo del viewport
+            // (no por scrollear suavemente cerca del borde)
+            entry.target.classList.remove("visible");
           }
         });
       },
-      { threshold, rootMargin: "0px 0px -60px 0px" }
+      { threshold, rootMargin: "0px 0px -10% 0px" }
     );
 
     allTargets.forEach((t) => observer.observe(t));
 
-    // Safety net: if for any reason the observer hasn't revealed an element,
-    // force-show it after a short delay so buttons/content never stay hidden.
-    const fallback = setTimeout(() => {
-      allTargets.forEach((t) => t.classList.add("visible"));
-    }, 600);
-
-    return () => {
-      clearTimeout(fallback);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threshold, ...deps]);
 
