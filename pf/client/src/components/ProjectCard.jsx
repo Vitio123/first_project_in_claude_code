@@ -1,33 +1,51 @@
 import { Link } from "react-router-dom";
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, index = 0 }) {
   const techs = project.tech.split(",").map((t) => t.trim());
-  const topics = project.topics ? project.topics.split(",").map((t) => t.trim()) : [];
+  const topics = project.topics
+    ? project.topics.split(",").map((t) => t.trim())
+    : [];
 
   return (
-    <Link to={`/projects/${project.id}`} className="apple-card project-card-link">
-      <h3 style={{ fontWeight: 600, fontSize: "1.1rem", marginBottom: 8 }}>{project.title}</h3>
-      <p style={{ color: "var(--apple-gray)", fontSize: "0.9rem", lineHeight: 1.55, marginBottom: 16 }}>
+    <Link
+      to={`/projects/${project.id}`}
+      className="group relative flex h-full flex-col border border-midnight-800 bg-midnight-900 p-7 transition-colors duration-300 hover:border-electric-500 focus-visible:border-electric-400"
+    >
+      {/* Número grande de fondo */}
+      <span className="absolute right-5 top-4 font-mono text-xs text-cream-400 transition-colors group-hover:text-electric-400">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+
+      <h3 className="mb-3 pr-8 text-xl font-semibold text-cream-100 transition-colors group-hover:text-electric-300">
+        {project.title}
+      </h3>
+
+      <p className="mb-6 text-sm leading-relaxed text-cream-300">
         {project.description}
       </p>
 
-      {/* Tech badges */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+      <div className="mb-5 flex flex-wrap gap-1.5">
         {techs.map((t) => (
-          <span key={t} className="tech-badge">{t}</span>
+          <span
+            key={t}
+            className="border border-midnight-700 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-cream-200"
+          >
+            {t}
+          </span>
         ))}
       </div>
 
-      {/* Topics preview */}
       {topics.length > 0 && (
-        <div style={{ fontSize: "0.8rem", color: "var(--apple-gray)" }}>
-          <span style={{ fontWeight: 500 }}>Temas:</span> {topics.join(" · ")}
-        </div>
+        <p className="mb-6 text-xs text-cream-400">
+          <span className="text-cream-300">Temas · </span>
+          {topics.join(" / ")}
+        </p>
       )}
 
-      <div style={{ marginTop: "auto", paddingTop: 16 }}>
-        <span className="btn-apple btn-apple-ghost" style={{ padding: "8px 0", fontSize: "0.85rem" }}>
-          Ver contenido →
+      <div className="mt-auto flex items-center gap-2 pt-4">
+        <span className="label-mono text-electric-400">Ver contenido</span>
+        <span className="text-electric-400 transition-transform group-hover:translate-x-1">
+          →
         </span>
       </div>
     </Link>

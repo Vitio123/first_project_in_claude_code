@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import useScrollReveal from "../hooks/useScrollReveal";
+import DotField from "../components/DotField";
 
 const skills = [
-  { icon: "🧱", name: "HTML & CSS", desc: "Estructura semántica, Grid, Flexbox. El fundamento de todo lo visual." },
-  { icon: "⚡", name: "JavaScript", desc: "ES6+, estructuras de datos, asincronía con Promises y async/await." },
-  { icon: "⚛️", name: "React", desc: "Componentes, hooks, React Router. Interfaces reactivas y escalables." },
-  { icon: "🟢", name: "Node.js & Express", desc: "Servidor, API REST, middlewares, manejo de errores." },
-  { icon: "🗄️", name: "SQL & SQLite", desc: "Base de datos relacional, consultas, relaciones entre tablas." },
-  { icon: "🔒", name: "Seguridad & APIs", desc: "CORS, validación de inputs, JWT, conexión segura a servicios externos." },
+  { id: "01", name: "HTML & CSS", desc: "Semántica, Grid y Flexbox. La base estructural de toda interfaz." },
+  { id: "02", name: "JavaScript", desc: "ES6+, estructuras de datos y asincronía con Promises y async/await." },
+  { id: "03", name: "React", desc: "Componentes, hooks y React Router. Interfaces reactivas y escalables." },
+  { id: "04", name: "Node & Express", desc: "Servidores HTTP, API REST, middlewares y manejo de errores." },
+  { id: "05", name: "SQL & SQLite", desc: "Modelado relacional, consultas y relaciones entre tablas." },
+  { id: "06", name: "Seguridad & APIs", desc: "CORS, validación de inputs, JWT y conexión a servicios externos." },
 ];
 
 export default function Home() {
@@ -17,71 +18,122 @@ export default function Home() {
   return (
     <div className="page-enter">
       {/* ── Hero ── */}
-      <section className="hero-dark">
-        <p className="eyebrow" style={{ color: "#2997ff", animation: "fadeInUp 0.6s var(--smooth) 0.1s both" }}>
-          Full Stack Developer
-        </p>
-        <h1 className="headline-gradient" style={{ animation: "fadeInUp 0.8s var(--smooth) 0.2s both" }}>
-          Código que<br />habla por sí solo.
-        </h1>
-        <p className="body-copy" style={{ marginTop: 20, animation: "blurIn 0.8s var(--smooth) 0.5s both" }}>
-          Aprendo construyendo. Cada proyecto es un paso más hacia dominar
-          React, Node.js y el stack completo — de cero a producción.
-        </p>
-        <div style={{ marginTop: 36, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", animation: "fadeInUp 0.6s var(--smooth) 0.8s both" }}>
-          <Link to="/projects" className="btn-apple btn-apple-primary">Ver proyectos</Link>
-          <Link to="/contact" className="btn-apple btn-apple-ghost" style={{ color: "#2997ff" }}>
-            Contactarme →
-          </Link>
+      <section className="relative overflow-hidden">
+        <DotField />
+        <div className="relative mx-auto max-w-6xl px-6 pb-28 pt-40 md:px-10 md:pt-48 md:pb-40">
+          <div className="mb-8 flex items-center gap-3">
+            <span className="h-px w-10 bg-electric-500" />
+            <span className="label-mono text-electric-400">Full Stack Developer</span>
+          </div>
+
+          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight text-cream-100 sm:text-6xl md:text-7xl lg:text-[5.5rem]">
+            Código que
+            <br />
+            <span className="text-electric-400">habla por sí solo.</span>
+          </h1>
+
+          <p className="mt-8 max-w-xl text-lg leading-relaxed text-cream-300">
+            Aprendo construyendo. Cada proyecto es un paso más hacia dominar
+            React, Node y el stack completo — de cero a producción.
+          </p>
+
+          <div className="mt-12 flex flex-wrap gap-4">
+            <Link
+              to="/projects"
+              className="group inline-flex items-center gap-3 border border-electric-500 bg-electric-500 px-7 py-3.5 font-medium text-midnight-950 transition-colors hover:bg-electric-400 hover:border-electric-400"
+            >
+              Ver proyectos
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-3 border border-midnight-700 px-7 py-3.5 font-medium text-cream-100 transition-colors hover:border-electric-400 hover:text-electric-300"
+            >
+              Contactarme
+            </Link>
+          </div>
         </div>
       </section>
 
-      <hr className="divider" />
-
       {/* ── Stack ── */}
-      <section className="section" ref={skillsRef}>
-        <div className="section-inner">
-          <p className="eyebrow section-center reveal">Tecnologías</p>
-          <h2 className="subheadline section-center reveal" style={{ marginBottom: 8 }}>
-            El stack de principio a fin.
-          </h2>
-          <p className="body-copy section-center reveal" style={{ marginBottom: 48 }}>
-            No copio y pego — entiendo qué hace cada línea y por qué está ahí.
-          </p>
+      <section ref={skillsRef} className="border-t border-midnight-800">
+        <div className="mx-auto max-w-6xl px-6 py-24 md:px-10 md:py-32">
+          <div className="mb-16 grid gap-8 md:grid-cols-[1fr_2fr] md:items-end">
+            <div className="reveal">
+              <span className="label-mono text-electric-400">01 / Stack</span>
+              <h2 className="mt-3 text-4xl font-semibold tracking-tight text-cream-100 md:text-5xl">
+                De principio
+                <br />a fin.
+              </h2>
+            </div>
+            <p className="reveal text-lg leading-relaxed text-cream-300">
+              No copio y pego. Entiendo qué hace cada línea y por qué está ahí —
+              desde el primer pixel hasta la última query de SQL.
+            </p>
+          </div>
 
-          <div className="skills-grid stagger">
+          <div className="stagger grid grid-cols-1 gap-px bg-midnight-800 sm:grid-cols-2 lg:grid-cols-3">
             {skills.map((s) => (
-              <div className="apple-card reveal-scale" key={s.name}>
-                <div className="skill-icon">{s.icon}</div>
-                <h3 style={{ fontWeight: 600, fontSize: "1.05rem", marginBottom: 6 }}>{s.name}</h3>
-                <p style={{ color: "var(--apple-gray)", fontSize: "0.9rem", lineHeight: 1.5 }}>{s.desc}</p>
+              <div
+                key={s.id}
+                className="reveal-scale group relative bg-midnight-900 p-8 transition-colors hover:bg-midnight-850"
+              >
+                <span className="font-mono text-xs text-cream-400 transition-colors group-hover:text-electric-400">
+                  {s.id}
+                </span>
+                <h3 className="mt-4 text-xl font-semibold text-cream-100">
+                  {s.name}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-cream-300">
+                  {s.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <hr className="divider" />
-
       {/* ── CTA ── */}
-      <section className="section section-center" ref={ctaRef}>
-        <div className="section-inner">
-          <p className="eyebrow reveal">¿Hablamos?</p>
-          <h2 className="subheadline reveal" style={{ marginBottom: 16 }}>
-            Abierto a colaborar y aprender.
-          </h2>
-          <p className="body-copy reveal" style={{ marginBottom: 32 }}>
-            Si tienes un proyecto, una idea o simplemente quieres conectar — escríbeme.
-          </p>
-          <div className="reveal">
-            <Link to="/contact" className="btn-apple btn-apple-dark">Enviar mensaje</Link>
+      <section ref={ctaRef} className="border-t border-midnight-800">
+        <div className="mx-auto max-w-6xl px-6 py-24 md:px-10 md:py-32">
+          <div className="border border-midnight-800 bg-midnight-900 p-10 md:p-16">
+            <span className="reveal label-mono text-electric-400">02 / Hablemos</span>
+            <h2 className="reveal mt-4 max-w-2xl text-4xl font-semibold tracking-tight text-cream-100 md:text-5xl">
+              Abierto a colaborar
+              <br />y a aprender.
+            </h2>
+            <p className="reveal mt-6 max-w-xl text-lg leading-relaxed text-cream-300">
+              Si tienes un proyecto, una idea o simplemente quieres conectar —
+              escríbeme.
+            </p>
+            <div className="reveal mt-10">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-3 border border-cream-100 px-7 py-3.5 font-medium text-cream-100 transition-colors hover:border-electric-400 hover:text-electric-300"
+              >
+                Enviar mensaje
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      <footer className="apple-footer">
-        <p>Construido con React, Node.js y SQLite · {new Date().getFullYear()}</p>
-      </footer>
+      <Footer />
     </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-midnight-800">
+      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-6 py-10 text-sm text-cream-400 md:flex-row md:items-center md:px-10">
+        <p>
+          Construido con React, Node y SQLite ·{" "}
+          <span className="text-cream-300">{new Date().getFullYear()}</span>
+        </p>
+        <p className="font-mono text-xs">vitio · full-stack</p>
+      </div>
+    </footer>
   );
 }

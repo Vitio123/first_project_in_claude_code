@@ -2,20 +2,21 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <div className="page-enter" style={{ textAlign: "center", padding: "120px 22px" }}>
-      <p className="eyebrow" style={{ animation: "fadeInUp 0.6s var(--smooth) 0.1s both" }}>Error</p>
-      <h1
-        className="headline-gradient"
-        style={{ marginBottom: 16, animation: "fadeInScale 0.8s var(--bounce) 0.2s both" }}
-      >
-        404
+    <div className="page-enter mx-auto flex min-h-[80vh] max-w-3xl flex-col items-start justify-center px-6 md:px-10">
+      <span className="label-mono text-electric-400">Error 404</span>
+      <h1 className="mt-6 font-mono text-[8rem] font-bold leading-none text-cream-100 md:text-[12rem]">
+        4<span className="text-electric-500">0</span>4
       </h1>
-      <p className="body-copy" style={{ marginBottom: 32, animation: "blurIn 0.8s var(--smooth) 0.5s both" }}>
-        Esta página no existe o fue movida.
+      <p className="mt-6 max-w-md text-lg leading-relaxed text-cream-300">
+        Esta página no existe o fue movida a otra parte del archivo.
       </p>
-      <div style={{ animation: "fadeInUp 0.6s var(--smooth) 0.7s both" }}>
-        <Link to="/" className="btn-apple btn-apple-dark">Volver al inicio</Link>
-      </div>
+      <Link
+        to="/"
+        className="group mt-10 inline-flex items-center gap-3 border border-cream-100 px-7 py-3.5 font-medium text-cream-100 transition-colors hover:border-electric-400 hover:text-electric-300"
+      >
+        <span className="transition-transform group-hover:-translate-x-1">←</span>
+        Volver al inicio
+      </Link>
     </div>
   );
 }
